@@ -16,7 +16,7 @@ A small Windows utility that shows the charge of wireless mice and headsets in t
 
 ## Run on Windows
 
-Use Windows 10 or 11 and 64-bit Python 3.13. The USB profiles were verified on Windows 11.
+Use Windows 10 or 11 and 64-bit Python 3.13. The USB profiles were verified on Windows 11. This version runs from source. You can clone the repository with Git or choose **Code → Download ZIP**, extract it, and open PowerShell in the extracted folder.
 
 ```powershell
 git clone https://github.com/Bratuha1/peripheral-battery-tray.git
@@ -37,6 +37,17 @@ The built-in USB profiles appear when their receivers are present. If Windows pu
 4. Run `--check` again. When a percentage appears, restart the tray app to add the icon.
 
 The [device guide](docs/adding-devices.md) covers troubleshooting and adding USB profiles.
+
+### Troubleshooting
+
+| What you see | What to try |
+| --- | --- |
+| `py` is missing or cannot find Python 3.13 | Install 64-bit [Python 3.13 for Windows](https://www.python.org/downloads/windows/), make sure the launcher is available, and reopen PowerShell. |
+| `No supported device found` | Plug in the original USB receiver or add the BLE device to `devices.toml`. Use `--list-hid` or `--scan-ble` to identify it. |
+| The icon is gray or shows `Battery unavailable` | Wake the device, check its connection, and choose **Refresh battery**. Then repeat `--check` if needed. |
+| The icon is missing although `--check` works | Start the app without `--check`, leave it running, and look under **^** beside the clock. |
+
+For a bug or compatibility request, follow the [reporting checklist](docs/adding-devices.md#report-a-bug-or-request-a-device).
 
 ## Development
 

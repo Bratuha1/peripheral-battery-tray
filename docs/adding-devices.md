@@ -35,7 +35,9 @@ The reader connects to service `180F` and reads the one-byte Battery Level chara
    The reader receives candidate HID paths as a tuple. Open the verified vendor collection and send only the known read request, if one is needed. Bound reads by a timeout, close the handle, and return a verified percentage or `None`. The IPI and Logitech profiles show a 64-byte output-report transport. Other report sizes or feature reports require their own transport code.
 4. Use `--check` to compare several readings against the vendor utility. Verify disconnect, reconnect, and charging where possible. Each built-in profile currently exposes one icon per model.
 
-For a compatibility request, open a GitHub Issue with the exact device model, connection mode, VID:PID and vendor usage for a USB device, and a link to the utility that reads its charge. Remove serial numbers and Bluetooth addresses. Mention whether the battery reading is already visible in Windows.
+## Report a bug or request a device
+
+Open a [GitHub Issue](https://github.com/Bratuha1/peripheral-battery-tray/issues/new) with the Windows version, exact device model, connection mode, and the output of `--check`. For bugs, include the steps to reproduce the issue. For a USB compatibility request, include the VID:PID and vendor usage from `--list-hid`. Mention whether Windows or the vendor's utility can read the charge, and link to the utility if available. Remove serial numbers and Bluetooth addresses.
 
 ## Protocol references
 
