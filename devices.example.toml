@@ -1,0 +1,8 @@
+# Copy to devices.toml next to peripheral_battery.py, then edit and restart.
+# Find the address with: python peripheral_battery.py --scan-ble
+[[bluetooth]]
+name = "My wireless mouse"
+kind = "mouse"
+address = "AA:BB:CC:DD:EE:FF"
+
+# Repeat the table with kind = "headset" for a compatible headset.
