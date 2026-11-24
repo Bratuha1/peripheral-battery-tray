@@ -1,0 +1,81 @@
+name: Windows build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13.13'
+          architecture: x64
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-build.txt
+      - name: Install dependencies
+        run: python -m pip install -r requirements-build.txt
+      - name: Test
+        run: python -m unittest discover -s tests -v
+      - name: Check version tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          $version = python -c "from settings import VERSION; print(VERSION)"
+          if ($env:GITHUB_REF_NAME -cne "v$version" -or $version -notmatch '^\d+\.\d+\.\d+$') {
+            throw "The tag must match the version in settings.py."
+          }
+          if (-not (Test-Path "docs/releases/v$version.md")) {
+            throw "The version needs release notes."
+          }
+      - name: Build EXE, portable ZIP and installer
+        run: |
+          $iscc = (Get-Command ISCC.exe -ErrorAction SilentlyContinue).Source
+          if (-not $iscc) { $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" }
+          python scripts/build.py --iscc "$iscc"
+      - name: Check the packaged application
+        run: python scripts/smoke_exe.py dist/PeripheralBatteryTray.exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: peripheral-battery-tray-windows-x64
+          if-no-files-found: error
+          path: |
+            dist/PeripheralBatteryTray.exe
+            dist/release-*/*
+
+  draft-release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: peripheral-battery-tray-windows-x64
+          path: release-assets
+      - name: Prepare GitHub release draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release create "$GITHUB_REF_NAME" --draft --verify-tag \
+            --title "Peripheral Battery Tray $GITHUB_REF_NAME" \
+            --notes-file "docs/releases/$GITHUB_REF_NAME.md" \
+            release-assets/PeripheralBatteryTray.exe release-assets/release-*/*

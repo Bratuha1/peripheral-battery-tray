@@ -1,4 +1,13 @@
 bleak==3.1.0
 hidapi==0.15.0
 Pillow==13.0.0
-pystray==0.19.5
+typing_extensions==4.16.0
+winrt-runtime==4.2.1; sys_platform == "win32"
+winrt-Windows.Devices.Bluetooth==4!10.0.28000.2957; sys_platform == "win32"
+winrt-Windows.Devices.Bluetooth.Advertisement==4!10.0.28000.2957; sys_platform == "win32"
+winrt-Windows.Devices.Bluetooth.GenericAttributeProfile==4!10.0.28000.2957; sys_platform == "win32"
+winrt-Windows.Devices.Enumeration==4!10.0.28000.2957; sys_platform == "win32"
+winrt-Windows.Devices.Radios==4!10.0.28000.2957; sys_platform == "win32"
+winrt-Windows.Foundation==4!10.0.28000.2957; sys_platform == "win32"
+winrt-Windows.Foundation.Collections==4!10.0.28000.2957; sys_platform == "win32"
+winrt-Windows.Storage.Streams==4!10.0.28000.2957; sys_platform == "win32"

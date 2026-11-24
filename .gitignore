@@ -4,4 +4,3 @@ __pycache__/
 devices.toml
 build/
 dist/
-*.spec
