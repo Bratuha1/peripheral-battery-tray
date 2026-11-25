@@ -1,12 +1,16 @@
 # Peripheral Battery Tray
 
-Peripheral Battery Tray shows the charge of supported wireless mice, headsets and Bluetooth LE devices in the Windows notification area. It reads battery data locally and sends no telemetry.
+See the battery percentage of your **IPI Haze X Pro** mouse or **Logitech G PRO X 2 LIGHTSPEED** headset next to the Windows clock. Use the original wireless USB receiver, choose a separate tray icon for each device, and set a low-battery alert. Battery readings stay on your PC.
 
-[Русская инструкция](docs/ru.md) · [Device profiles](docs/adding-devices.md) · [Changelog](CHANGELOG.md)
+[Download portable ZIP](https://github.com/Bratuha1/peripheral-battery-tray/releases/download/v1.0.0/PeripheralBatteryTray-1.0.0-windows-x64-portable.zip) · [All release files](https://github.com/Bratuha1/peripheral-battery-tray/releases/latest) · [Русская инструкция](docs/ru.md)
+
+**Windows 10 and 11, 64-bit.** Extract the ZIP, run `PeripheralBatteryTray.exe`, plug in your receiver and click **Find USB**. Use **Find Bluetooth** for devices with a readable Bluetooth LE Battery Service.
+
+![Devices window showing live battery readings from an IPI Haze X Pro mouse and Logitech G PRO X 2 LIGHTSPEED headset](docs/devices-window.jpg)
 
 ## Install or run without installing
 
-The v1.0.0 build targets **64-bit Windows 10 and 11** and includes Python and its libraries. When a release is published, its downloads and SHA-256 checksums will be available on the [Releases page](https://github.com/Bratuha1/peripheral-battery-tray/releases).
+The [v1.0.0 release](https://github.com/Bratuha1/peripheral-battery-tray/releases/tag/v1.0.0) includes Python and its libraries. It offers an installer, a portable ZIP and a standalone EXE.
 
 - **Installer**. Run the file ending in `-setup.exe`. It installs for your Windows user and adds a Start menu shortcut.
 - **Portable**. Extract the ZIP to a folder you intend to keep, then run `PeripheralBatteryTray.exe`.
@@ -27,13 +31,15 @@ Windows manages which icons appear next to the clock and which are under **^**. 
 
 | Device or protocol | Connection | Evidence |
 | --- | --- | --- |
-| IPI Haze X Pro | Original 2.4 GHz USB receiver, `372E:10F9` | Verified on Windows 11 in the original project. v1.0.0 hardware recheck pending. |
-| Logitech G PRO X 2 LIGHTSPEED | Original LIGHTSPEED USB receiver, `046D:0AF7` | Verified on Windows 11 in the original project. v1.0.0 hardware recheck pending. |
+| IPI Haze X Pro | Original 2.4 GHz USB receiver, `372E:10F9` | Battery reading verified with v1.0.0 on Windows 11. |
+| Logitech G PRO X 2 LIGHTSPEED | Original LIGHTSPEED USB receiver, `046D:0AF7` | Battery reading verified with v1.0.0 on Windows 11. |
 | Standard Bluetooth LE Battery Service | Readable `180F` / `2A19` on an advertising BLE device | Standard reader. Availability depends on the device, Windows pairing and address stability. |
 | Logitech HID++ 2.0 with Unified Battery | Selected Bolt, Unifying or LIGHTSPEED USB receivers | Experimental. Devices appear after returning a valid exact percentage. Hardware verification pending. |
 | Other proprietary USB devices | Model-specific USB protocols | See the [device guide](docs/adding-devices.md). |
 
 Automatic BLE discovery looks for advertisements containing the Battery Service and saves a device only after reading a valid Battery Level. Devices that expose the service without advertising it can be configured in `%APPDATA%\PeripheralBatteryTray\devices.toml`. See the [device guide](docs/adding-devices.md). Bluetooth Classic, proprietary services and separate earbud and case readings need their own implementation.
+
+**Tried your device?** [Share a compatibility result or request a model](https://github.com/Bratuha1/peripheral-battery-tray/issues/new?template=device-compatibility.yml). Include the exact model and connection type so other owners can tell whether the result applies to them.
 
 ## Troubleshooting
 
@@ -59,4 +65,4 @@ py -3.13 -m venv .venv
 
 Pass `--iscc "C:\path\to\ISCC.exe"` to `scripts/build.py` to build the per-user installer with Inno Setup 6.7 or later. Outputs are under `dist`. On a matching version tag GitHub Actions tests and builds the project and prepares a **draft** GitHub release. Complete the [hardware checklist](docs/release-checklist.md) before publishing. See the [release runbook](docs/publishing.md) for tag, artifact and publication steps.
 
-[MIT License](LICENSE)
+[Changelog](CHANGELOG.md) · [MIT License](LICENSE)

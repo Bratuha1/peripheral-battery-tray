@@ -1,0 +1,47 @@
+name: Device compatibility
+description: Report a battery reading or request support for a mouse, headset, or other peripheral.
+title: "[Device]: "
+body:
+  - type: markdown
+    attributes:
+      value: You can write in English or Russian. Remove serial numbers and Bluetooth addresses from anything you share.
+  - type: input
+    id: model
+    attributes:
+      label: Exact model
+      placeholder: IPI Haze X Pro
+    validations:
+      required: true
+  - type: dropdown
+    id: connection
+    attributes:
+      label: Connection
+      options:
+        - Original USB wireless receiver
+        - Other USB wireless receiver
+        - Bluetooth
+        - USB cable
+        - Other or unknown
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - Battery percentage appeared
+        - Detected but battery percentage was missing or incorrect
+        - Device was not detected
+        - Requesting support without a test result
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: App version and Windows version
+      placeholder: v1.0.0 on Windows 11
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Which discovery button did you use, and what happened? Include the USB VID and PID or the vendor app's reading if you have it.
